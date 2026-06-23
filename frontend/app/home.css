@@ -1,0 +1,58 @@
+/* ================================================================
+   PÁGINA DE INICIO (HOME)
+   ================================================================ */
+
+.home-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  font-family: var(--font-sans);
+}
+
+.home-container {
+  text-align: center;
+  max-width: 600px;
+}
+
+.home-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.5px;
+}
+
+.home-subtitle {
+  font-size: 1.25rem;
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-2xl);
+  line-height: 1.6;
+}
+
+.home-button {
+  display: inline-block;
+  padding: var(--spacing-md) var(--spacing-2xl);
+  background-color: var(--primary);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  border: none;
+}
+
+.home-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(45, 95, 111, 0.2);
+}
+
+.home-button:active {
+  transform: translateY(-1px);
+}

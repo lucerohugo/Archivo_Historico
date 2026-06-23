@@ -1,0 +1,464 @@
+/* ================================================================
+   VARIABLES Y COLORES
+   ================================================================ */
+:root {
+  /* Colores principales */
+  --primary: #2d5f6f;
+  --primary-dark: #1f3f4d;
+  --primary-light: #3d7f8f;
+  --accent: #d9534f;
+  --accent-light: #f8d7da;
+  
+  /* Grises y neutros */
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  
+  /* Espaciado */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Tipografía */
+  --font-sans: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Bordes */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  
+  /* Transiciones */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================================================
+   RESET Y ESTILOS BASE
+   ================================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--gray-50);
+  color: var(--gray-900);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* ================================================================
+   PÁGINA PÚBLICA - LISTA DE REGISTROS
+   ================================================================ */
+.registros-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: var(--spacing-lg) var(--spacing-md);
+  font-family: var(--font-sans);
+}
+
+.registros-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: var(--spacing-2xl);
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+/* ================================================================
+   SECCIÓN DE BÚSQUEDA Y FILTROS
+   ================================================================ */
+.search-section {
+  background: var(--white);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.search-label {
+  display: block;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.95rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-family: var(--font-sans);
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(45, 95, 111, 0.1);
+}
+
+.filter-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-label {
+  display: block;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-sm);
+  font-size: 0.9rem;
+}
+
+.filter-input {
+  padding: var(--spacing-md);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  transition: var(--transition);
+  background-color: var(--white);
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(45, 95, 111, 0.1);
+}
+
+.filter-button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--gray-500);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.filter-button:hover {
+  background-color: var(--gray-600);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ================================================================
+   TABLA DE REGISTROS
+   ================================================================ */
+.table-container {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+thead {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--white);
+}
+
+th {
+  padding: var(--spacing-lg);
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid var(--primary-dark);
+}
+
+/* Ancho específico para columnas */
+th:nth-child(1),
+td:nth-child(1) {
+  min-width: 80px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  min-width: 100px;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  min-width: 400px;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+  min-width: 80px;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+  min-width: 100px;
+}
+
+th:nth-child(6),
+td:nth-child(6) {
+  min-width: 100px;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--gray-200);
+  transition: var(--transition);
+}
+
+tbody tr:hover {
+  background-color: var(--gray-50);
+}
+
+td {
+  padding: var(--spacing-lg);
+  font-size: 0.95rem;
+  color: var(--gray-900);
+  word-break: break-word;
+}
+
+td a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: var(--transition);
+}
+
+td a:hover {
+  border-bottom-color: var(--primary);
+}
+
+.table-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: var(--transition);
+}
+
+.table-link:hover {
+  border-bottom-color: var(--primary);
+}
+
+/* ================================================================
+   BOTONES DE ACCIÓN
+   ================================================================ */
+.action-button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.action-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ================================================================
+   PAGINACIÓN
+   ================================================================ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  padding: var(--spacing-xl);
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.pagination-button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--white);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  min-width: 40px;
+  text-align: center;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: var(--primary);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.pagination-button.active {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================================================
+   MENSAJES Y ERRORES
+   ================================================================ */
+.empty-message {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--gray-500);
+  font-size: 1rem;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.form-error {
+  background-color: var(--accent-light);
+  color: #721c24;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  border-left: 4px solid var(--accent);
+}
+
+.form-success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  border-left: 4px solid #28a745;
+}
+
+/* ================================================================
+   CARGANDO
+   ================================================================ */
+.loading {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--gray-500);
+  font-size: 1.1rem;
+}
+
+.spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--gray-200);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================================================================
+   RESPONSIVE DESIGN
+   ================================================================ */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .filter-section {
+    grid-template-columns: 1fr;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th,
+  td {
+    padding: var(--spacing-md);
+  }
+
+  .pagination {
+    gap: var(--spacing-xs);
+  }
+
+  .pagination-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    min-width: 35px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .registros-page {
+    padding: var(--spacing-md);
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .search-input,
+  .filter-input {
+    font-size: 16px; /* Prevenir zoom en iOS */
+  }
+}

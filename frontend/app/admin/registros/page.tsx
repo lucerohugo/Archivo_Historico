@@ -30,7 +30,7 @@ const getFileUrl = (filePath: string): string => {
   return `${baseUrl}${filePath}`;
 };
 
-export default function RegistrosPublicosPage() {
+export default function AdminRegistrosPage() {
   const router = useRouter();
   const [registros, setRegistros] = useState<Registro[]>([]);
   const [filteredRegistros, setFilteredRegistros] = useState<Registro[]>([]);
@@ -54,7 +54,7 @@ export default function RegistrosPublicosPage() {
   const fetchRegistros = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/public/registros/');
+      const response = await api.get('/registros/');
       setRegistros(response.data.results || response.data);
       setError(null);
     } catch (err) {
@@ -113,6 +113,21 @@ export default function RegistrosPublicosPage() {
     setPage(1);
   };
 
+  const handleDeleteRegistro = async (id: number, titulo: string) => {
+    if (!window.confirm(`¿Estás seguro de que deseas eliminar el registro "${titulo}"?`)) {
+      return;
+    }
+
+    try {
+      await api.delete(`/registros/${id}/`);
+      setRegistros(registros.filter((r) => r.arc_codi !== id));
+      setError(null);
+    } catch (err: any) {
+      console.error('Error deleting registro:', err);
+      setError('Error al eliminar el registro. Intenta de nuevo.');
+    }
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
   };
@@ -139,7 +154,7 @@ export default function RegistrosPublicosPage() {
       <div className="registros-container">
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
           <button
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/registrar')}
             style={{
               padding: '0.75rem 1.5rem',
               backgroundColor: '#6c757d',
@@ -162,7 +177,7 @@ export default function RegistrosPublicosPage() {
           >
             ← Volver
           </button>
-          <h1 className="page-title" style={{ marginBottom: '0', flex: 1 }}>TODOS LOS REGISTROS HISTÓRICOS</h1>
+          <h1 className="page-title" style={{ marginBottom: '0', flex: 1 }}>TODOS LOS REGISTROS HISTÓRICOS (ADMIN)</h1>
         </div>
 
         {error && <div className="form-error">{error}</div>}
@@ -212,10 +227,10 @@ export default function RegistrosPublicosPage() {
             </div>
             <button
               onClick={() => {
+                setSearchTerm('');
                 setSelectedYear('');
                 setFechaDesde('');
                 setFechaHasta('');
-                setSearchTerm('');
               }}
               className="filter-button"
             >
@@ -242,7 +257,9 @@ export default function RegistrosPublicosPage() {
                     <th>Fecha</th>
                     <th>Título Referencia</th>
                     <th>Año</th>
+                    <th>Visibilidad</th>
                     <th>Archivos</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -256,6 +273,20 @@ export default function RegistrosPublicosPage() {
                       <td className="table-cell">{formatDate(registro.arc_fech)}</td>
                       <td className="table-cell">{registro.arc_titu}</td>
                       <td className="table-cell">{registro.arc_año || '-'}</td>
+                      <td className="table-cell">
+                        <span
+                          style={{
+                            padding: '0.3rem 0.6rem',
+                            borderRadius: '4px',
+                            fontSize: '0.75rem',
+                            fontWeight: '700',
+                            backgroundColor: registro.arc_visw ? '#d4edda' : '#f8d7da',
+                            color: registro.arc_visw ? '#155724' : '#721c24',
+                          }}
+                        >
+                          {registro.arc_visw ? 'PÚBLICO' : 'PRIVADO'}
+                        </span>
+                      </td>
                       <td className="table-cell">
                         {registro.archivos && registro.archivos.length > 0 ? (
                           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -280,6 +311,53 @@ export default function RegistrosPublicosPage() {
                         ) : (
                           <span style={{ color: '#999' }}>-</span>
                         )}
+                      </td>
+                      <td className="table-cell">
+                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                          <button
+                            onClick={() => router.push(`/registrar/editar/${registro.arc_codi}`)}
+                            style={{
+                              padding: '0.4rem 0.8rem',
+                              backgroundColor: '#0d6efd',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontWeight: '600',
+                              fontSize: '0.75rem',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = '#0b5ed7';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = '#0d6efd';
+                            }}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => handleDeleteRegistro(registro.arc_codi, registro.arc_titu)}
+                            style={{
+                              padding: '0.4rem 0.8rem',
+                              backgroundColor: '#dc3545',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontWeight: '600',
+                              fontSize: '0.75rem',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = '#c82333';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = '#dc3545';
+                            }}
+                            title="Eliminar registro"
+                          >
+                            Borrar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

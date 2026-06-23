@@ -1,0 +1,150 @@
+/* ================================================================
+   TABLA DE REGISTROS
+   ================================================================ */
+
+.registros-table-container {
+  overflow-x: auto;
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-300);
+  box-shadow: var(--shadow-md);
+}
+
+.registros-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.registros-table thead {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.registros-table th {
+  padding: var(--spacing-lg);
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+}
+
+.registros-table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.registros-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.registros-table tbody tr:hover {
+  background-color: #e8f4f8;
+}
+
+.registros-table tbody tr:nth-child(even) {
+  background-color: var(--gray-50);
+}
+
+/* ================================================================
+   ESTADOS DE TABLA
+   ================================================================ */
+
+.table-loading {
+  padding: var(--spacing-2xl);
+  text-align: center;
+  color: var(--gray-500);
+}
+
+.table-empty {
+  padding: var(--spacing-2xl);
+  text-align: center;
+  color: var(--gray-400);
+  background-color: var(--gray-50);
+}
+
+/* ================================================================
+   ARCHIVOS EN TABLA
+   ================================================================ */
+
+.file-badges {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.file-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--primary);
+  color: var(--white);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.file-badge.pdf {
+  background-color: #e74c3c;
+}
+
+.file-badge.image {
+  background-color: #3498db;
+}
+
+.file-badge.doc {
+  background-color: #2ecc71;
+}
+
+.file-badge.unknown {
+  background-color: var(--gray-400);
+}
+
+/* ================================================================
+   CONTROLES DE TABLA
+   ================================================================ */
+
+.table-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.btn-small {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.85rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: var(--gray-300);
+  color: var(--gray-900);
+}
+
+.btn-secondary:hover {
+  background-color: var(--gray-400);
+}
+
+.btn-danger {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  background-color: #c9302c;
+}

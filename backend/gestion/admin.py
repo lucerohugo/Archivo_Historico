@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Localidad, Provincia, General, Parroquia, Sacerdote, RegistroHistorico
+from .models import Localidad, Provincia, General, Parroquia, Sacerdote, RegistroHistorico, ArchivoAdjunto, Login
 
 
 @admin.register(Localidad)
@@ -74,10 +74,10 @@ class SacerdoteAdmin(admin.ModelAdmin):
 
 @admin.register(RegistroHistorico)
 class RegistroHistoricoAdmin(admin.ModelAdmin):
-    list_display = ['arc_codi', 'arc_titu', 'arc_fech', 'arc_año', 'arc_parroquia', 'arc_acti']
-    list_filter = ['arc_acti', 'arc_año', 'arc_cate', 'arc_parroquia', 'arc_tema']
+    list_display = ['arc_codi', 'arc_titu', 'arc_fech', 'arc_año', 'arc_visw', 'arc_acti']
+    list_filter = ['arc_acti', 'arc_visw', 'arc_año', 'arc_cate', 'arc_tema']
     search_fields = ['arc_codi', 'arc_titu', 'arc_desc', 'arc_asun']
-    readonly_fields = ['arc_fechr', 'arc_fechm']
+    readonly_fields = ['arc_codi', 'arc_fechr', 'arc_fechm']
     date_hierarchy = 'arc_fech'
     
     fieldsets = (
@@ -108,14 +108,17 @@ class RegistroHistoricoAdmin(admin.ModelAdmin):
         ('Numeración de Documentos', {
             'fields': ('arc_lega', 'arc_nume', 'arc_foli', 'arc_hoja', 'arc_medi')
         }),
-        ('Metadata y Observaciones', {
-            'fields': ('arc_meta', 'arc_obse')
+        # ('Metadata y Observaciones', {
+        #     'fields': ('arc_meta', 'arc_obse')
+        # }),
+        ('Observaciones', {
+            'fields': ('arc_obse',)
         }),
         ('Relaciones', {
             'fields': ('arc_parroquia', 'arc_sacerdote')
         }),
         ('Control', {
-            'fields': ('arc_fechr', 'arc_fechm', 'arc_exp', 'arc_acti'),
+            'fields': ('arc_fechr', 'arc_fechm', 'arc_exp', 'arc_visw', 'arc_acti'),
             'classes': ('collapse',)
         }),
     )
@@ -123,3 +126,49 @@ class RegistroHistoricoAdmin(admin.ModelAdmin):
     def get_search_results(self, request, queryset, search_term):
         queryset, use_distinct = super().get_search_results(request, queryset, search_term)
         return queryset, use_distinct
+
+
+@admin.register(ArchivoAdjunto)
+class ArchivoAdjuntoAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'registro', 'tipo', 'fecha_carga']
+    list_filter = ['tipo', 'fecha_carga', 'registro']
+    search_fields = ['nombre', 'descripcion', 'registro__arc_codi']
+    readonly_fields = ['fecha_carga']
+    fieldsets = (
+        ('Información', {
+            'fields': ('registro', 'nombre', 'archivo')
+        }),
+        ('Detalles', {
+            'fields': ('tipo', 'descripcion')
+        }),
+        ('Control', {
+            'fields': ('fecha_carga',),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(Login)
+class LoginAdmin(admin.ModelAdmin):
+    list_display = ['log_codi', 'log_usua', 'log_acti', 'log_fech']
+    list_filter = ['log_acti', 'log_fech']
+    search_fields = ['log_usua', 'log_codi']
+    readonly_fields = ['log_codi', 'log_fech', 'log_fechm']
+    fieldsets = (
+        ('Información de Usuario', {
+            'fields': ('log_codi', 'log_usua', 'log_clav')
+        }),
+        ('Estado', {
+            'fields': ('log_acti',)
+        }),
+        ('Control', {
+            'fields': ('log_fech', 'log_fechm'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def save_model(self, request, obj, form, change):
+        """Hashea la contraseña antes de guardar"""
+        if 'log_clav' in form.changed_data:
+            obj.set_password(form.cleaned_data['log_clav'])
+        super().save_model(request, obj, form, change)

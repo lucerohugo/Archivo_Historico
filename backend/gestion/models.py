@@ -95,7 +95,7 @@ class RegistroHistorico(models.Model):
     """Modelo para gestionar registros históricos del archivo"""
     
     # Datos principales
-    arc_codi = models.CharField(max_length=20, unique=True, primary_key=True)
+    arc_codi = models.AutoField(primary_key=True)
     arc_fech = models.DateField(verbose_name="Fecha")
     arc_titu = models.CharField(max_length=255, verbose_name="Título")
     arc_desc = models.TextField(verbose_name="Descripción", blank=True, null=True)
@@ -150,7 +150,7 @@ class RegistroHistorico(models.Model):
     arc_medi = models.CharField(max_length=100, verbose_name="Medidas", blank=True, null=True)
     
     # Metadata
-    arc_meta = models.TextField(verbose_name="Metadata", blank=True, null=True)
+    # arc_meta = models.TextField(verbose_name="Metadata", blank=True, null=True)
     
     # Observaciones
     arc_obse = models.TextField(verbose_name="Nota Archivero", blank=True, null=True)
@@ -178,6 +178,11 @@ class RegistroHistorico(models.Model):
         default=False,
         help_text="Indica si el registro fue enviado o no"
     )
+    arc_visw = models.BooleanField(
+        default=True,
+        verbose_name="Visible al público",
+        help_text="Si está desmarcado, solo usuarios logueados pueden verlo"
+    )
     arc_acti = models.BooleanField(default=True)
     
     class Meta:
@@ -193,3 +198,99 @@ class RegistroHistorico(models.Model):
     
     def __str__(self):
         return f"{self.arc_codi} - {self.arc_titu}"
+
+
+# ================================================================
+# Archivo Adjunto
+# ================================================================
+class ArchivoAdjunto(models.Model):
+    """Modelo para almacenar archivos adjuntos a registros históricos"""
+    
+    registro = models.ForeignKey(
+        RegistroHistorico,
+        on_delete=models.CASCADE,
+        related_name='archivos',
+        verbose_name="Registro"
+    )
+    archivo = models.FileField(
+        upload_to='registros/%Y/%m/%d/',
+        verbose_name="Archivo"
+    )
+    nombre = models.CharField(
+        max_length=255,
+        verbose_name="Nombre del archivo",
+        blank=True
+    )
+    tipo = models.CharField(
+        max_length=50,
+        verbose_name="Tipo de archivo",
+        choices=[
+            ('pdf', 'PDF'),
+            ('imagen', 'Imagen'),
+            ('documento', 'Documento'),
+            ('otro', 'Otro'),
+        ],
+        default='otro'
+    )
+    fecha_carga = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Fecha de carga"
+    )
+    descripcion = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Descripción"
+    )
+    
+    class Meta:
+        verbose_name = "Archivo Adjunto"
+        verbose_name_plural = "Archivos Adjuntos"
+        ordering = ['-fecha_carga']
+    
+    def __str__(self):
+        return f"{self.nombre} - {self.registro.arc_codi}"
+
+
+# ================================================================
+# Login - Modelo personalizado de usuario
+# ================================================================
+class Login(models.Model):
+    """Modelo personalizado para autenticación de usuarios"""
+    log_codi = models.AutoField(primary_key=True)
+    log_usua = models.CharField(
+        max_length=50,
+        unique=True,
+        verbose_name="Usuario"
+    )
+    log_clav = models.CharField(
+        max_length=255,
+        verbose_name="Contraseña"
+    )
+    log_acti = models.BooleanField(
+        default=True,
+        verbose_name="Activo"
+    )
+    log_fech = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Fecha de creación"
+    )
+    log_fechm = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Fecha de modificación"
+    )
+    
+    class Meta:
+        verbose_name = "Usuario del Archivo"
+        verbose_name_plural = "Usuarios del Archivo"
+        ordering = ['-log_fech']
+    
+    def __str__(self):
+        return self.log_usua
+    
+    def set_password(self, raw_password):
+        """Hashea y almacena la contraseña"""
+        self.log_clav = make_password(raw_password)
+    
+    def check_password(self, raw_password):
+        """Verifica la contraseña contra el hash almacenado"""
+        return check_password(raw_password, self.log_clav)

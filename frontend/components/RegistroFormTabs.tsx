@@ -3,7 +3,7 @@
 import React, { useState, useEffect, CSSProperties } from 'react';
 import api from '@/lib/api';
 
-interface RegistroFormProps {
+interface RegistroFormTabsProps {
   onSubmit: (data: any) => void;
   onClose: () => void;
   loading?: boolean;
@@ -45,6 +45,7 @@ type FormDataType = {
   arc_hoja: string;
   arc_medi: string;
   arc_obse: string;
+  arc_visw: boolean;
 };
 
 const styles: Record<string, CSSProperties> = {
@@ -181,6 +182,60 @@ const styles: Record<string, CSSProperties> = {
     border: '1px solid #ddd',
     borderRadius: '4px',
   },
+  modal: {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    padding: '2rem',
+    maxWidth: '500px',
+    width: '90%',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+  },
+  modalTitle: {
+    fontSize: '1.5rem',
+    fontWeight: '700',
+    color: '#2d5f6f',
+    marginBottom: '1rem',
+  },
+  modalDescription: {
+    fontSize: '0.95rem',
+    color: '#333',
+    marginBottom: '1.5rem',
+    lineHeight: '1.5',
+  },
+  modalButtons: {
+    display: 'flex',
+    gap: '1rem',
+    justifyContent: 'flex-end',
+  },
+  modalButton: {
+    padding: '0.75rem 1.5rem',
+    fontSize: '0.95rem',
+    fontWeight: '600',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+  },
+  publicButton: {
+    backgroundColor: '#28a745',
+    color: '#fff',
+  },
+  privateButton: {
+    backgroundColor: '#dc3545',
+    color: '#fff',
+  },
 };
 
 const getTodayDate = () => {
@@ -191,9 +246,10 @@ const getTodayDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-export default function RegistroForm({ onSubmit, onClose, loading = false }: RegistroFormProps) {
+export default function RegistroFormTabs({ onSubmit, onClose, loading = false }: RegistroFormTabsProps) {
   const [activeTab, setActiveTab] = useState<'datos' | 'almacenamiento' | 'archivos'>('datos');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [showVisibilityModal, setShowVisibilityModal] = useState(false);
   const [formData, setFormData] = useState<FormDataType>({
     arc_codi: '',
     arc_fech: getTodayDate(),
@@ -230,6 +286,7 @@ export default function RegistroForm({ onSubmit, onClose, loading = false }: Reg
     arc_hoja: '',
     arc_medi: '',
     arc_obse: '',
+    arc_visw: true,
   });
 
   useEffect(() => {
@@ -272,10 +329,16 @@ export default function RegistroForm({ onSubmit, onClose, loading = false }: Reg
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowVisibilityModal(true);
+  };
+
+  const handleSubmitWithVisibility = (isPublic: boolean) => {
     const formDataWithFiles = {
       ...formData,
+      arc_visw: isPublic,
       archivos: selectedFiles,
     };
+    setShowVisibilityModal(false);
     onSubmit(formDataWithFiles);
   };
 
@@ -320,7 +383,7 @@ export default function RegistroForm({ onSubmit, onClose, loading = false }: Reg
               <div style={styles.grid}>
                 <div style={styles.formGroup}>
                   <label style={styles.label}>Código</label>
-                  <input type="text" name="arc_codi" value={formData.arc_codi} style={styles.inputReadOnly as CSSProperties} readOnly />
+                  <input type="text" name="arc_codi" value={formData.arc_codi} style={styles.inputReadOnly} readOnly />
                 </div>
                 <div style={styles.formGroup}>
                   <label style={styles.label}>Fecha *</label>
@@ -580,6 +643,50 @@ export default function RegistroForm({ onSubmit, onClose, loading = false }: Reg
           </button>
         </div>
       </form>
+
+      {/* MODAL DE VISIBILIDAD */}
+      {showVisibilityModal && (
+        <div style={styles.modal as CSSProperties}>
+          <div style={styles.modalContent as CSSProperties}>
+            <div style={styles.modalTitle}>Establecer Visibilidad del Registro</div>
+            <div style={styles.modalDescription}>
+              Selecciona si deseas que este registro sea visible al público sin necesidad de login, o si debe ser privado (solo accesible para usuarios logueados).
+            </div>
+            <div style={styles.modalButtons as CSSProperties}>
+              <button
+                type="button"
+                onClick={() => handleSubmitWithVisibility(false)}
+                style={{ ...styles.modalButton, ...styles.privateButton } as CSSProperties}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '0.9';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Privado (Solo Logueados)
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSubmitWithVisibility(true)}
+                style={{ ...styles.modalButton, ...styles.publicButton } as CSSProperties}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '0.9';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Público
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

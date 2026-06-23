@@ -1,0 +1,118 @@
+/* ================================================================
+   COMPONENTE - LISTA DE REGISTROS (RegistroList)
+   ================================================================ */
+
+.registro-list-container {
+  overflow-x: auto;
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-300);
+  box-shadow: var(--shadow-md);
+}
+
+.registro-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.registro-list-table thead {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.registro-list-table th {
+  padding: var(--spacing-lg);
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+}
+
+.registro-list-table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.registro-list-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.registro-list-table tbody tr:hover {
+  background-color: #e8f4f8;
+}
+
+.registro-list-table tbody tr:nth-child(even) {
+  background-color: var(--gray-50);
+}
+
+.registro-list-table tbody tr:nth-child(odd) {
+  background-color: var(--white);
+}
+
+.registro-list-code {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.registro-list-files {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.registro-list-file-link {
+  color: var(--primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.registro-list-file-link:hover {
+  color: var(--primary-dark);
+}
+
+.registro-list-file-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  background-color: #e8f0f5;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.registro-list-file-badge:hover {
+  background-color: var(--primary-light);
+  color: var(--white);
+}
+
+.registro-list-no-files {
+  color: var(--gray-400);
+}
+
+.registro-list-loading {
+  padding: var(--spacing-2xl);
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 1rem;
+}
+
+.registro-list-empty {
+  padding: var(--spacing-2xl);
+  text-align: center;
+  color: var(--gray-400);
+  background-color: var(--gray-50);
+  font-size: 1rem;
+}
+
+.registro-list-file-count {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+}

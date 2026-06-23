@@ -1,0 +1,499 @@
+/* ================================================================
+   PÁGINA DE CREAR NUEVO REGISTRO
+   ================================================================ */
+
+.form-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: var(--spacing-lg);
+  font-family: var(--font-sans);
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: -0.5px;
+}
+
+/* ================================================================
+   SISTEMA DE PESTAÑAS
+   ================================================================ */
+
+.tab-container {
+  display: flex;
+  gap: 4px;
+  margin-bottom: var(--spacing-lg);
+  background-color: transparent;
+  padding: 4px 0;
+  border-radius: 0;
+  box-shadow: none;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  border-bottom: 2px solid var(--gray-300);
+}
+
+.tab-button {
+  flex: 0 1 auto;
+  min-width: auto;
+  padding: 6px 12px;
+  background-color: transparent;
+  color: var(--gray-600);
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tab-button:hover {
+  background-color: transparent;
+  color: var(--primary);
+  border-bottom-color: var(--gray-300);
+  transform: none;
+}
+
+.tab-button.active {
+  background-color: transparent;
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* ================================================================
+   ESTRUCTURA DEL FORMULARIO
+   ================================================================ */
+
+.section-header {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--white);
+  background-color: var(--primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.section-content {
+  background-color: var(--white);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* ================================================================
+   GRILLA DE FORMULARIO
+   ================================================================ */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-grid.full {
+  grid-template-columns: 1fr;
+}
+
+.form-grid.three-cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form-grid.date-title {
+  grid-template-columns: 150px 1fr;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid.three-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ================================================================
+   GRUPOS DE FORMULARIO
+   ================================================================ */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--gray-700);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.form-label.required::after {
+  content: ' *';
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ================================================================
+   INPUTS Y SELECTS
+   ================================================================ */
+
+.form-input,
+.form-textarea,
+.form-select {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  background-color: var(--white);
+  color: var(--gray-900);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(45, 95, 111, 0.1);
+  background-color: #f8fbfc;
+}
+
+.form-input:disabled,
+.form-textarea:disabled,
+.form-select:disabled {
+  background-color: var(--gray-50);
+  color: var(--gray-500);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-textarea {
+  min-height: 80px;
+  resize: vertical;
+  font-family: var(--font-mono);
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232d5f6f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-sm) center;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.number-field {
+  font-family: var(--font-mono);
+}
+
+/* ================================================================
+   CHECKBOXES Y RADIOS
+   ================================================================ */
+
+.checkbox-group,
+.radio-group {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+  flex-wrap: wrap;
+  padding: var(--spacing-md) 0;
+}
+
+.checkbox-item,
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+}
+
+.checkbox-item input[type="checkbox"],
+.checkbox-item input[type="radio"],
+.radio-item input[type="checkbox"],
+.radio-item input[type="radio"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.checkbox-item input[type="checkbox"]:disabled,
+.checkbox-item input[type="radio"]:disabled,
+.radio-item input[type="checkbox"]:disabled,
+.radio-item input[type="radio"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.checkbox-label,
+.radio-label {
+  cursor: pointer;
+  user-select: none;
+  color: var(--gray-700);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Directo en checkbox-group */
+.checkbox-group input[type="checkbox"],
+.checkbox-group input[type="radio"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.checkbox-group label {
+  cursor: pointer;
+  user-select: none;
+  color: var(--gray-700);
+  font-weight: 500;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* ================================================================
+   MENSAJES DE ESTADO
+   ================================================================ */
+
+.form-error {
+  background-color: #fee;
+  color: #c33;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  border-left: 4px solid #c33;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  border-left: 4px solid #2e7d32;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* ================================================================
+   BOTONES DE ACCIÓN
+   ================================================================ */
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.btn-submit,
+.btn-cancel,
+.btn-reset {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 130px;
+}
+
+.btn-submit {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(45, 95, 111, 0.3);
+}
+
+.btn-submit:disabled {
+  background-color: var(--gray-400);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-cancel {
+  background-color: var(--gray-300);
+  color: var(--gray-900);
+}
+
+.btn-cancel:hover {
+  background-color: var(--gray-400);
+  transform: translateY(-2px);
+}
+
+.btn-reset {
+  background-color: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.btn-reset:hover {
+  background-color: var(--gray-300);
+}
+
+/* ================================================================
+   CARGAS DE ARCHIVOS
+   ================================================================ */
+
+.file-upload-area {
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: #f8fbfc;
+}
+
+.file-upload-area:hover {
+  background-color: #e8f4f8;
+  border-color: var(--primary-dark);
+}
+
+.file-upload-area.dragover {
+  background-color: #e8f4f8;
+  border-color: var(--primary-dark);
+  transform: scale(1.02);
+}
+
+.file-upload-icon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.file-upload-text {
+  color: var(--gray-700);
+  font-size: 0.95rem;
+  margin: var(--spacing-sm) 0;
+}
+
+.file-upload-info {
+  color: var(--gray-600);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.file-list {
+  list-style: none;
+  display: grid;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background-color: var(--gray-50);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-300);
+}
+
+.file-item-name {
+  font-weight: 500;
+  color: var(--gray-900);
+}
+
+.file-item-size {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+}
+
+.file-item-remove {
+  background-color: var(--accent);
+  color: var(--white);
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.file-item-remove:hover {
+  background-color: #c9302c;
+}
+
+/* ================================================================
+   RESPUESTAS Y CARGA
+   ================================================================ */
+
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--gray-300);
+  border-radius: 50%;
+  border-top-color: var(--primary);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+
+@media (max-width: 768px) {
+  .form-page {
+    padding: var(--spacing-md);
+  }
+
+  .form-title {
+    font-size: 1.2rem;
+  }
+
+  .tab-container {
+    flex-direction: column;
+  }
+
+  .tab-button {
+    min-width: auto;
+  }
+
+  .section-content {
+    padding: var(--spacing-md);
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-submit,
+  .btn-cancel,
+  .btn-reset {
+    width: 100%;
+  }
+}

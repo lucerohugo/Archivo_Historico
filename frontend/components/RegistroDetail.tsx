@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import FileUpload from './FileUpload';
 
 interface RegistroDetailProps {
   registro: any;
@@ -134,7 +133,20 @@ const styles = {
 export default function RegistroDetail({ registro, onBack }: RegistroDetailProps) {
   const [activeTab, setActiveTab] = useState<'datos' | 'almacenamiento' | 'archivos'>('datos');
   const [files, setFiles] = useState<any[]>([]);
-  const [previewFile, setPreviewFile] = useState<any>(null);
+
+  React.useEffect(() => {
+    // Cargar archivos adjuntos del registro
+    if (registro.archivos && registro.archivos.length > 0) {
+      const archivosFormateados = registro.archivos.map((archivo: any) => ({
+        id: archivo.id,
+        nombre: archivo.nombre,
+        tipo: archivo.tipo,
+        url: archivo.archivo,
+        fecha_carga: archivo.fecha_carga,
+      }));
+      setFiles(archivosFormateados);
+    }
+  }, [registro]);
 
   const handleFileUpload = (newFiles: File[]) => {
     const newFileObjects = newFiles.map(file => ({
@@ -146,8 +158,21 @@ export default function RegistroDetail({ registro, onBack }: RegistroDetailProps
     setFiles([...files, ...newFileObjects]);
   };
 
-  const isImage = (type: string) => type.startsWith('image/');
-  const isPdf = (type: string) => type === 'application/pdf';
+  const isImage = (fileUrl: string) => {
+    const extension = fileUrl?.split('.')?.pop()?.toLowerCase();
+    return ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension || '');
+  };
+
+  const isPdf = (fileUrl: string) => {
+    return fileUrl?.toLowerCase()?.endsWith('.pdf');
+  };
+
+  const getFileIcon = (tipo: string | undefined, fileName: string = '') => {
+    if (tipo === 'pdf' || fileName.endsWith('.pdf')) return '';
+    if (tipo === 'imagen' || isImage(fileName)) return '';
+    if (tipo === 'documento' || fileName.endsWith('.docx') || fileName.endsWith('.doc')) return '';
+    return '';
+  };
 
   return (
     <div style={styles.container}>
@@ -174,26 +199,26 @@ export default function RegistroDetail({ registro, onBack }: RegistroDetailProps
           style={{ ...styles.tab, ...(activeTab === 'datos' ? styles.activeTab : {}) }}
           onClick={() => setActiveTab('datos')}
         >
-          📋 Datos Principales
+          Datos Principales
         </button>
         <button
           style={{ ...styles.tab, ...(activeTab === 'almacenamiento' ? styles.activeTab : {}) }}
           onClick={() => setActiveTab('almacenamiento')}
         >
-          🏪 Almacenamiento
+          Almacenamiento
         </button>
         <button
           style={{ ...styles.tab, ...(activeTab === 'archivos' ? styles.activeTab : {}) }}
           onClick={() => setActiveTab('archivos')}
         >
-          📁 Archivos ({files.length})
+          Archivos ({files.length})
         </button>
       </div>
 
       {/* TAB: DATOS PRINCIPALES */}
       {activeTab === 'datos' && (
         <div style={styles.section}>
-          <div style={styles.sectionTitle}>📋 Datos Principales de Registro</div>
+          <div style={styles.sectionTitle}> Datos Principales de Registro</div>
           <div style={styles.fieldGrid}>
             <div style={styles.fieldGroup}>
               <label style={styles.label}>Código</label>
@@ -204,7 +229,7 @@ export default function RegistroDetail({ registro, onBack }: RegistroDetailProps
               <div style={styles.value}>{new Date(registro.arc_fech).toLocaleDateString('es-ES')}</div>
             </div>
             <div style={styles.fieldGroup}>
-              <label style={styles.label}>Título</label>
+              <label style={styles.label}>Título Referencia</label>
               <div style={styles.value}>{registro.arc_titu}</div>
             </div>
             <div style={styles.fieldGroup}>
@@ -240,13 +265,19 @@ export default function RegistroDetail({ registro, onBack }: RegistroDetailProps
               {registro.arc_asun || '-'}
             </div>
           </div>
+          <div style={{ ...styles.fieldGroup, marginTop: '1.5rem' }}>
+            <label style={styles.label}>Visibilidad</label>
+            <div style={{...styles.value, color: registro.arc_visw ? '#2d5f6f' : '#d9534f'}}>
+              {registro.arc_visw ? 'Visible al público (sin login)' : 'Privado (solo usuarios logueados)'}
+            </div>
+          </div>
         </div>
       )}
 
       {/* TAB: ALMACENAMIENTO */}
       {activeTab === 'almacenamiento' && (
         <div style={styles.section}>
-          <div style={styles.sectionTitle}>🏪 Almacenamiento y Ubicación Física</div>
+          <div style={styles.sectionTitle}> Almacenamiento y Ubicación Física</div>
           <div style={styles.fieldGrid}>
             <div style={styles.fieldGroup}>
               <label style={styles.label}>Soporte</label>
@@ -311,92 +342,47 @@ export default function RegistroDetail({ registro, onBack }: RegistroDetailProps
       {/* TAB: ARCHIVOS */}
       {activeTab === 'archivos' && (
         <div style={styles.section}>
-          <div style={styles.sectionTitle}>📁 Archivos Adjuntos</div>
-          <FileUpload onFilesSelected={handleFileUpload} />
+          <div style={styles.sectionTitle}>Archivos Adjuntos</div>
           
-          {files.length > 0 && (
-            <div style={{ marginTop: '2rem' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '1rem', color: '#2d5f6f' }}>
-                Archivos Cargados ({files.length})
+          {files.length > 0 ? (
+            <div>
+              <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '1.5rem', color: '#2d5f6f' }}>
+                Archivos del Registro ({files.length})
               </h3>
               <div style={styles.filesList}>
                 {files.map((file, idx) => (
-                  <div
+                  <a
                     key={idx}
-                    style={styles.fileItem}
-                    onClick={() => setPreviewFile(file)}
+                    href={file.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{...styles.fileItem, textDecoration: 'none'}}
+                    title={`Descargar: ${file.nombre}`}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#e8f4f8';
-                      e.currentTarget.style.borderColor = '#2d5f6f';
+                      (e.currentTarget as any).style.backgroundColor = '#e8f4f8';
+                      (e.currentTarget as any).style.borderColor = '#2d5f6f';
+                      (e.currentTarget as any).style.transform = 'scale(1.05)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#f9f9f9';
-                      e.currentTarget.style.borderColor = '#ddd';
+                      (e.currentTarget as any).style.backgroundColor = '#f9f9f9';
+                      (e.currentTarget as any).style.borderColor = '#ddd';
+                      (e.currentTarget as any).style.transform = 'scale(1)';
                     }}
                   >
-                    {isImage(file.type) && (
-                      <img src={file.url} alt={file.name} style={styles.filePreview} />
-                    )}
-                    {isPdf(file.type) && (
-                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📄</div>
-                    )}
-                    <div style={styles.fileName}>{file.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: '#999' }}>
-                      {(file.size / 1024).toFixed(2)} KB
+                    <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
+                      {getFileIcon(file.tipo, file.nombre)}
                     </div>
-                  </div>
+                    <div style={styles.fileName}>{file.nombre}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#999' }}>
+                      {file.tipo} • {new Date(file.fecha_carga).toLocaleDateString('es-ES')}
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>
-          )}
-
-          {previewFile && (
-            <div style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0,0,0,0.7)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 1000,
-            }}>
-              <div style={{
-                backgroundColor: '#fff',
-                padding: '2rem',
-                borderRadius: '8px',
-                maxWidth: '90vw',
-                maxHeight: '90vh',
-                overflow: 'auto',
-                position: 'relative',
-              }}>
-                <button
-                  onClick={() => setPreviewFile(null)}
-                  style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    padding: '0.5rem 1rem',
-                    backgroundColor: '#d32f2f',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                  }}
-                >
-                  ✕ Cerrar
-                </button>
-                {isImage(previewFile.type) && (
-                  <img src={previewFile.url} alt={previewFile.name} style={{ maxWidth: '100%', maxHeight: '80vh' }} />
-                )}
-                {isPdf(previewFile.type) && (
-                  <iframe src={previewFile.url} style={{ width: '100%', height: '80vh', border: 'none' }} />
-                )}
-              </div>
+          ) : (
+            <div style={{ padding: '2rem', textAlign: 'center', backgroundColor: '#f9f9f9', borderRadius: '4px', color: '#bbb' }}>
+              No hay archivos adjuntos en este registro
             </div>
           )}
         </div>
