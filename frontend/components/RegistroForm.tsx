@@ -431,7 +431,7 @@ export default function RegistroForm({ onSubmit, onClose, loading = false }: Reg
                     <input type="text" name="arc_sopo" value={formData.arc_sopo} onChange={handleChange} style={styles.input as CSSProperties} />
                   </div>
                   <div style={styles.formGroup}>
-                    <label style={styles.label}>Estado Conservación</label>
+                    <label style={styles.label}>Estado Conservacion</label>
                     <input type="text" name="arc_esta" value={formData.arc_esta} onChange={handleChange} style={styles.input as CSSProperties} />
                   </div>
                 </div>

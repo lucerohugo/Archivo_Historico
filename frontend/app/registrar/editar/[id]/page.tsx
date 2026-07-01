@@ -515,8 +515,6 @@ export default function EditarRegistroPage() {
                     />
                   </div>
                 </div>
-                  </div>
-                </div>
               </div>
             </>
           )}
