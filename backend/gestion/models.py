@@ -126,25 +126,25 @@ class RegistroHistorico(models.Model):
     arc_seri = models.CharField(max_length=100, verbose_name="Serie", blank=True, null=True)
     arc_sser = models.CharField(max_length=100, verbose_name="Subserie", blank=True, null=True)
     
-    # Conservación y ubicación
+    # Conservacion y ubicacion
     arc_sopo = models.CharField(max_length=100, verbose_name="Soporte", blank=True, null=True)
     arc_esta = models.CharField(max_length=100, verbose_name="Estado", blank=True, null=True)
-    arc_conA = models.CharField(max_length=255, verbose_name="Condición de Acceso", blank=True, null=True)
-    arc_conR = models.CharField(max_length=255, verbose_name="Condición de Reproducción", blank=True, null=True)
+    arc_conA = models.CharField(max_length=255, verbose_name="Condicion de Acceso", blank=True, null=True)
+    arc_conR = models.CharField(max_length=255, verbose_name="Condicion de Reproducción", blank=True, null=True)
     arc_leng = models.CharField(max_length=50, verbose_name="Lengua", blank=True, null=True)
     arc_orco = models.BooleanField(verbose_name="Original/Copia", default=True)
     arc_lugD = models.CharField(max_length=255, verbose_name="Lugar Destino", blank=True, null=True)
     
-    # Ubicación 
+    # Ubicacion 
     arc_ubsa = models.CharField(max_length=100, verbose_name="Ubicación Sala", blank=True, null=True)
     arc_pasi = models.CharField(max_length=100, verbose_name="Pasillo", blank=True, null=True)
-    arc_estan = models.CharField(max_length=100, verbose_name="Estantería", blank=True, null=True)
+    arc_estan = models.CharField(max_length=100, verbose_name="Estanteria", blank=True, null=True)
     arc_casi = models.CharField(max_length=100, verbose_name="Casillero", blank=True, null=True)
-    arc_caja = models.CharField(max_length=100, verbose_name="Caja Número", blank=True, null=True)
+    arc_caja = models.CharField(max_length=100, verbose_name="Caja Numero", blank=True, null=True)
     
-    # Numeración de documentos
+    # Numeracion de documentos
     arc_lega = models.CharField(max_length=100, verbose_name="Legajo", blank=True, null=True)
-    arc_nume = models.CharField(max_length=100, verbose_name="Número", blank=True, null=True)
+    arc_nume = models.CharField(max_length=100, verbose_name="Numero", blank=True, null=True)
     arc_foli = models.CharField(max_length=100, verbose_name="Folios", blank=True, null=True)
     arc_hoja = models.CharField(max_length=100, verbose_name="Hoja", blank=True, null=True)
     arc_medi = models.CharField(max_length=100, verbose_name="Medidas", blank=True, null=True)

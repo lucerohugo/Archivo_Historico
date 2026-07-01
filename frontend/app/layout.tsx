@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Archivo Histórico - Sistema de Gestión Diocesano',
+  title: 'Archivo Histórico - Diocesano',
   description: 'Portal de acceso a documentos históricos diocesanos',
   language: 'es',
 };

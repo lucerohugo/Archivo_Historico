@@ -77,60 +77,60 @@ const styles: Record<string, CSSProperties> = {
     backgroundColor: '#fff',
   },
   content: {
-    padding: '1.5rem',
+    padding: '0.6rem',
   },
   section: {
-    marginBottom: '2rem',
+    marginBottom: '0.8rem',
   },
   sectionTitle: {
-    fontSize: '1.1rem',
+    fontSize: '0.95rem',
     fontWeight: '700',
     color: '#2d5f6f',
     backgroundColor: '#e8f4f8',
-    padding: '0.75rem 1rem',
+    padding: '0.4rem 0.6rem',
     borderLeft: '4px solid #2d5f6f',
-    marginBottom: '1rem',
+    marginBottom: '0.5rem',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '1rem',
-    marginBottom: '1rem',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gap: '0.4rem',
+    marginBottom: '0.5rem',
   },
   formGroup: {
     display: 'flex',
     flexDirection: 'column',
   },
   label: {
-    fontSize: '0.9rem',
+    fontSize: '0.7rem',
     fontWeight: '600',
-    marginBottom: '0.4rem',
+    marginBottom: '0.2rem',
     color: '#1a1a1a',
   },
   input: {
-    padding: '0.65rem 0.75rem',
+    padding: '0.3rem 0.4rem',
     border: '1px solid #ccc',
     borderRadius: '4px',
-    fontSize: '0.95rem',
+    fontSize: '0.75rem',
     fontFamily: 'inherit',
   },
   inputReadOnly: {
-    padding: '0.65rem 0.75rem',
+    padding: '0.3rem 0.4rem',
     border: '1px solid #ddd',
     borderRadius: '4px',
-    fontSize: '0.95rem',
+    fontSize: '0.75rem',
     fontFamily: 'inherit',
     backgroundColor: '#f8f8f8',
     color: '#666',
     cursor: 'not-allowed',
   },
   textarea: {
-    padding: '0.65rem 0.75rem',
+    padding: '0.3rem 0.4rem',
     border: '1px solid #ccc',
     borderRadius: '4px',
-    fontSize: '0.95rem',
+    fontSize: '0.75rem',
     fontFamily: 'inherit',
-    minHeight: '80px',
+    minHeight: '40px',
     resize: 'vertical',
   },
   fileInput: {
@@ -397,6 +397,12 @@ export default function RegistroForm({ onSubmit, onClose, loading = false }: Reg
               </div>
             </div>
 
+          </>
+        )}
+
+        {/* TAB: ALMACENAMIENTO */}
+        {activeTab === 'almacenamiento' && (
+          <>
             <div style={styles.section}>
               <div style={styles.sectionTitle}>GRUPOS Y SERIES</div>
               <div style={styles.grid}>
@@ -414,104 +420,102 @@ export default function RegistroForm({ onSubmit, onClose, loading = false }: Reg
                 </div>
               </div>
             </div>
-          </>
-        )}
-
-        {/* TAB: ALMACENAMIENTO */}
-        {activeTab === 'almacenamiento' && (
-          <>
-            <div style={styles.section}>
-              <div style={styles.sectionTitle}>CONSERVACIÓN</div>
-              <div style={styles.grid}>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Soporte</label>
-                  <input type="text" name="arc_sopo" value={formData.arc_sopo} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Estado</label>
-                  <input type="text" name="arc_esta" value={formData.arc_esta} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-              </div>
-              <div style={styles.grid}>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Condición Acceso</label>
-                  <input type="text" name="arc_conA" value={formData.arc_conA} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Condición Reproducción</label>
-                  <input type="text" name="arc_conR" value={formData.arc_conR} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-              </div>
-              <div style={styles.grid}>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Lengua</label>
-                  <input type="text" name="arc_leng" value={formData.arc_leng} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Lugar Destino</label>
-                  <input type="text" name="arc_lugD" value={formData.arc_lugD} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-              </div>
-              <div style={{ ...styles.formGroup, marginTop: '0.5rem' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                  <input type="checkbox" name="arc_orco" checked={formData.arc_orco} onChange={handleChange} />
-                  <span style={styles.label}>Original / Copia</span>
-                </label>
-              </div>
-            </div>
 
             <div style={styles.section}>
-              <div style={styles.sectionTitle}>UBICACIÓN FÍSICA EN ALMACÉN</div>
-              <div style={styles.grid}>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Sala</label>
-                  <input type="text" name="arc_ubsa" value={formData.arc_ubsa} onChange={handleChange} style={styles.input as CSSProperties} />
+              <div style={styles.sectionTitle}>CONSERVACIÓN Y UBICACIÓN</div>
+              
+              <div style={{ marginBottom: '0.6rem' }}>
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Soporte</label>
+                    <input type="text" name="arc_sopo" value={formData.arc_sopo} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Estado Conservación</label>
+                    <input type="text" name="arc_esta" value={formData.arc_esta} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
                 </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Pasillo</label>
-                  <input type="text" name="arc_pasi" value={formData.arc_pasi} onChange={handleChange} style={styles.input as CSSProperties} />
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Cond. de Acceso</label>
+                    <input type="text" name="arc_conA" value={formData.arc_conA} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Cond. de Reproducción</label>
+                    <input type="text" name="arc_conR" value={formData.arc_conR} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
                 </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Estantería</label>
-                  <input type="text" name="arc_estan" value={formData.arc_estan} onChange={handleChange} style={styles.input as CSSProperties} />
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Lengua Escritura</label>
+                    <input type="text" name="arc_leng" value={formData.arc_leng} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={{ ...styles.label, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                      <input type="checkbox" name="arc_orco" checked={formData.arc_orco} onChange={handleChange} />
+                      <span>Original / Copia</span>
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div style={styles.grid}>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Casillero</label>
-                  <input type="text" name="arc_casi" value={formData.arc_casi} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Caja Número</label>
-                  <input type="text" name="arc_caja" value={formData.arc_caja} onChange={handleChange} style={styles.input as CSSProperties} />
-                </div>
-              </div>
-            </div>
 
-            <div style={styles.section}>
-              <div style={styles.sectionTitle}>NUMERACIÓN DE DOCUMENTOS</div>
-              <div style={styles.grid}>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Legajo</label>
-                  <input type="text" name="arc_lega" value={formData.arc_lega} onChange={handleChange} style={styles.input as CSSProperties} />
+              <div style={{ marginBottom: '0.6rem' }}>
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Lugar Destino</label>
+                    <input type="text" name="arc_lugD" value={formData.arc_lugD} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
                 </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Número</label>
-                  <input type="text" name="arc_nume" value={formData.arc_nume} onChange={handleChange} style={styles.input as CSSProperties} />
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Ubicación Sala</label>
+                    <input type="text" name="arc_ubsa" value={formData.arc_ubsa} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
                 </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Folios</label>
-                  <input type="text" name="arc_foli" value={formData.arc_foli} onChange={handleChange} style={styles.input as CSSProperties} />
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Pasillo</label>
+                    <input type="text" name="arc_pasi" value={formData.arc_pasi} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Estantería</label>
+                    <input type="text" name="arc_estan" value={formData.arc_estan} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Casillero</label>
+                    <input type="text" name="arc_casi" value={formData.arc_casi} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
                 </div>
               </div>
-              <div style={styles.grid}>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Hoja</label>
-                  <input type="text" name="arc_hoja" value={formData.arc_hoja} onChange={handleChange} style={styles.input as CSSProperties} />
+
+              <div>
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Caja Nro</label>
+                    <input type="text" name="arc_caja" value={formData.arc_caja} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Legajo</label>
+                    <input type="text" name="arc_lega" value={formData.arc_lega} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Número</label>
+                    <input type="text" name="arc_nume" value={formData.arc_nume} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
                 </div>
-                <div style={styles.formGroup}>
-                  <label style={styles.label}>Medidas</label>
-                  <input type="text" name="arc_medi" value={formData.arc_medi} onChange={handleChange} style={styles.input as CSSProperties} />
+                <div style={styles.grid}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Folios</label>
+                    <input type="text" name="arc_foli" value={formData.arc_foli} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Hojas</label>
+                    <input type="text" name="arc_hoja" value={formData.arc_hoja} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Medidas</label>
+                    <input type="text" name="arc_medi" value={formData.arc_medi} onChange={handleChange} style={styles.input as CSSProperties} />
+                  </div>
                 </div>
               </div>
             </div>

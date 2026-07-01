@@ -320,11 +320,11 @@ const getFileType = (mimeType: string): string => {
             <div className="section-content">
               <div className="form-grid date-title">
                 <div className="form-group">
-                  <label className="form-label">Fecha Recepción *</label>
+                  <label className="form-label">Fecha Recepción</label>
                   <input type="date" name="arc_fech" value={formData.arc_fech} onChange={handleChange} className="form-input" required disabled={loading} />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Titulo Referencia *</label>
+                  <label className="form-label">Titulo Referencia</label>
                   <input type="text" name="arc_titu" value={formData.arc_titu} onChange={handleChange} className="form-input" required disabled={loading} />
                 </div>
               </div>
@@ -405,6 +405,11 @@ const getFileType = (mimeType: string): string => {
               </div>
             </div>
 
+          </>
+        )}
+
+        {tab === 'almacenamiento' && (
+          <>
             <div className="section-header">GRUPOS Y SERIES</div>
             <div className="section-content">
               <div className="form-grid">
@@ -422,13 +427,10 @@ const getFileType = (mimeType: string): string => {
                 </div>
               </div>
             </div>
-          </>
-        )}
 
-        {tab === 'almacenamiento' && (
-          <>
             <div className="section-header">CONSERVACION Y UBICACION</div>
             <div className="section-content">
+              {/* PRINCIPALES: Soporte, Estado, Condiciones, Lengua, Original/Copia */}
               <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Soporte</label>
@@ -446,17 +448,8 @@ const getFileType = (mimeType: string): string => {
               </div>
               <div className="form-grid">
                 <div className="form-group">
-                  <label className="form-label">Cond.de Acceso</label>
+                  <label className="form-label">Cond. de Acceso</label>
                   <select name="arc_conA" value={formData.arc_conA} onChange={handleChange} className="form-select" disabled={loading}>
-                    <option value="EXCELENTE">EXCELENTE</option>
-                    <option value="BUENO">BUENO</option>
-                    <option value="REGULAR">REGULAR</option>
-                    <option value="REGULAR">MALO</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Cond.de Reproduccion</label>
-                  <select name="arc_conR" value={formData.arc_conR} onChange={handleChange} className="form-select" disabled={loading}>
                     <option value="EXCELENTE">EXCELENTE</option>
                     <option value="BUENO">BUENO</option>
                     <option value="REGULAR">REGULAR</option>
@@ -464,11 +457,20 @@ const getFileType = (mimeType: string): string => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Lengua Escritura</label>
-                  <input type="text" name="arc_leng" value={formData.arc_leng} onChange={handleChange} className="form-input" disabled={loading} />
+                  <label className="form-label">Cond. de Reproduccion</label>
+                  <select name="arc_conR" value={formData.arc_conR} onChange={handleChange} className="form-select" disabled={loading}>
+                    <option value="EXCELENTE">EXCELENTE</option>
+                    <option value="BUENO">BUENO</option>
+                    <option value="REGULAR">REGULAR</option>
+                    <option value="MALO">MALO</option>
+                  </select>
                 </div>
               </div>
               <div className="form-grid">
+                <div className="form-group">
+                  <label className="form-label">Lengua Escritura</label>
+                  <input type="text" name="arc_leng" value={formData.arc_leng} onChange={handleChange} className="form-input" disabled={loading} />
+                </div>
                 <div className="form-group">
                   <label className="form-label">Original / Copia</label>
                   <select name="arc_orco" value={formData.arc_orco ? 'true' : 'false'} onChange={(e) => setFormData(p => ({ ...p, arc_orco: e.target.value === 'true' }))} className="form-select" disabled={loading}>
@@ -476,24 +478,26 @@ const getFileType = (mimeType: string): string => {
                     <option value="false">COPIA</option>
                   </select>
                 </div>
+              </div>
+
+              {/* UBICACIÓN: Lugar Destino, Sala, Pasillo, Estantería, Casillero */}
+              <div className="form-grid full">
                 <div className="form-group">
                   <label className="form-label">Lugar Destino</label>
                   <input type="text" name="arc_lugD" value={formData.arc_lugD} onChange={handleChange} className="form-input" disabled={loading} />
                 </div>
               </div>
-            </div>
-
-            <div className="section-header">UBICACION FISICA</div>
-            <div className="section-content">
-              <div className="form-grid">
+              <div className="form-grid full">
                 <div className="form-group">
-                  <label className="form-label">Lugar Destino</label>
+                  <label className="form-label">Ubicacion Sala</label>
                   <select name="arc_ubsa" value={formData.arc_ubsa} onChange={handleChange} className="form-select" disabled={loading}>
                     <option value="ARCHIVO HISTORICO">ARCHIVO HISTORICO</option>
-                    <option value="ARCHIVO HISTORICO">ARCHIVO CORRIENTE</option>
-                    <option value="ARCHIVO HISTORICO">OBISPADO</option>
+                    <option value="ARCHIVO CORRIENTE">ARCHIVO CORRIENTE</option>
+                    <option value="OBISPADO">OBISPADO</option>
                   </select>
                 </div>
+              </div>
+              <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Pasillo</label>
                   <input type="text" name="arc_pasi" value={formData.arc_pasi} onChange={handleChange} className="form-input" disabled={loading} />
@@ -502,22 +506,18 @@ const getFileType = (mimeType: string): string => {
                   <label className="form-label">Estanteria</label>
                   <input type="text" name="arc_estan" value={formData.arc_estan} onChange={handleChange} className="form-input" disabled={loading} />
                 </div>
-              </div>
-              <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Casillero</label>
                   <input type="text" name="arc_casi" value={formData.arc_casi} onChange={handleChange} className="form-input" disabled={loading} />
                 </div>
+              </div>
+
+              {/* NUMERACIÓN: Caja, Legajo, Número, Folios, Hojas, Medidas */}
+              <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Caja Nro</label>
                   <input type="text" name="arc_caja" value={formData.arc_caja} onChange={handleChange} className="form-input number-field" disabled={loading} />
                 </div>
-              </div>
-            </div>
-
-            <div className="section-header">NUMERACION DE DOCUMENTOS</div>
-            <div className="section-content">
-              <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Legajo</label>
                   <input type="text" name="arc_lega" value={formData.arc_lega} onChange={handleChange} className="form-input number-field" disabled={loading} />
@@ -526,31 +526,22 @@ const getFileType = (mimeType: string): string => {
                   <label className="form-label">Numero</label>
                   <input type="text" name="arc_nume" value={formData.arc_nume} onChange={handleChange} className="form-input number-field" disabled={loading} />
                 </div>
+              </div>
+              <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Folios</label>
                   <input type="text" name="arc_foli" value={formData.arc_foli} onChange={handleChange} className="form-input number-field" disabled={loading} />
                 </div>
-              </div>
-              <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Hojas</label>
                   <input type="text" name="arc_hoja" value={formData.arc_hoja} onChange={handleChange} className="form-input number-field" disabled={loading} />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Carillas</label>
+                  <label className="form-label">Medidas</label>
                   <input type="text" name="arc_medi" value={formData.arc_medi} onChange={handleChange} className="form-input number-field" disabled={loading} />
                 </div>
               </div>
             </div>
-
-            {/* <div className="section-header">METADATAS #</div>
-            <div className="section-content">
-              <div className="form-grid full">
-                <div className="form-group">
-                  <input type="text" className="form-input green-field" placeholder="Metadata" disabled={loading} />
-                </div>
-              </div>
-            </div> */}
 
             <div className="section-header">Nota Archivero</div>
             <div className="section-content">

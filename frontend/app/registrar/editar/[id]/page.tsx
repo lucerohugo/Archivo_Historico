@@ -515,6 +515,17 @@ export default function EditarRegistroPage() {
                     />
                   </div>
                 </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* TAB: ALMACENAMIENTO */}
+          {tab === 'almacenamiento' && (
+            <>
+              <div className="section-header">GRUPOS Y SERIES</div>
+              <div className="section-content">
                 <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">GRUPO</label>
@@ -538,8 +549,6 @@ export default function EditarRegistroPage() {
                       disabled={loading}
                     />
                   </div>
-                </div>
-                <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">SUBSERIE</label>
                     <input
@@ -551,27 +560,12 @@ export default function EditarRegistroPage() {
                       disabled={loading}
                     />
                   </div>
-                  <div className="form-group">
-                    <label className="form-label">SOPORTE</label>
-                    <input
-                      type="text"
-                      name="arc_sopo"
-                      className="form-input"
-                      value={formData.arc_sopo}
-                      onChange={handleChange}
-                      disabled={loading}
-                    />
-                  </div>
                 </div>
               </div>
-            </>
-          )}
 
-          {/* TAB: ALMACENAMIENTO */}
-          {tab === 'almacenamiento' && (
-            <>
               <div className="section-header">CONSERVACIÓN Y UBICACIÓN</div>
               <div className="section-content">
+                {/* PRINCIPALES: Soporte, Estado, Condiciones, Lengua, Original/Copia */}
                 <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">SOPORTE</label>
@@ -602,7 +596,7 @@ export default function EditarRegistroPage() {
                 </div>
                 <div className="form-grid">
                   <div className="form-group">
-                    <label className="form-label">CONDICIÓN DE ACCESO</label>
+                    <label className="form-label">COND. DE ACCESO</label>
                     <select
                       name="arc_conA"
                       className="form-select"
@@ -616,7 +610,7 @@ export default function EditarRegistroPage() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">CONDICIÓN DE REPRODUCCIÓN</label>
+                    <label className="form-label">COND. DE REPRODUCCIÓN</label>
                     <select
                       name="arc_conR"
                       className="form-select"
@@ -661,11 +655,9 @@ export default function EditarRegistroPage() {
                     </select>
                   </div>
                 </div>
-              </div>
 
-              <div className="section-header">UBICACIÓN FÍSICA</div>
-              <div className="section-content">
-                <div className="form-grid">
+                {/* UBICACIÓN: Lugar Destino, Sala, Pasillo, Estantería, Casillero */}
+                <div className="form-grid full">
                   <div className="form-group">
                     <label className="form-label">LUGAR DESTINO</label>
                     <input
@@ -677,8 +669,10 @@ export default function EditarRegistroPage() {
                       disabled={loading}
                     />
                   </div>
+                </div>
+                <div className="form-grid full">
                   <div className="form-group">
-                    <label className="form-label">UBICACIÓN SECCIÓN/ARCHIVO</label>
+                    <label className="form-label">UBICACIÓN SALA</label>
                     <input
                       type="text"
                       name="arc_ubsa"
@@ -713,7 +707,7 @@ export default function EditarRegistroPage() {
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">CASI</label>
+                    <label className="form-label">CASILLERO</label>
                     <input
                       type="text"
                       name="arc_casi"
@@ -724,9 +718,11 @@ export default function EditarRegistroPage() {
                     />
                   </div>
                 </div>
+
+                {/* NUMERACIÓN: Caja, Legajo, Número, Folios, Hojas, Medidas */}
                 <div className="form-grid">
                   <div className="form-group">
-                    <label className="form-label">CAJA</label>
+                    <label className="form-label">CAJA NRO</label>
                     <input
                       type="text"
                       name="arc_caja"
@@ -747,12 +743,6 @@ export default function EditarRegistroPage() {
                       disabled={loading}
                     />
                   </div>
-                </div>
-              </div>
-
-              <div className="section-header">NUMERACIÓN DE DOCUMENTOS</div>
-              <div className="section-content">
-                <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">NÚMERO</label>
                     <input
@@ -764,6 +754,8 @@ export default function EditarRegistroPage() {
                       disabled={loading}
                     />
                   </div>
+                </div>
+                <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">FOLIOS</label>
                     <input
@@ -776,7 +768,7 @@ export default function EditarRegistroPage() {
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">HOJA</label>
+                    <label className="form-label">HOJAS</label>
                     <input
                       type="text"
                       name="arc_hoja"
@@ -786,10 +778,8 @@ export default function EditarRegistroPage() {
                       disabled={loading}
                     />
                   </div>
-                </div>
-                <div className="form-grid full">
                   <div className="form-group">
-                    <label className="form-label">MEDIO</label>
+                    <label className="form-label">MEDIDAS</label>
                     <input
                       type="text"
                       name="arc_medi"
@@ -800,9 +790,13 @@ export default function EditarRegistroPage() {
                     />
                   </div>
                 </div>
+              </div>
+
+              <div className="section-header">OBSERVACIONES</div>
+              <div className="section-content">
                 <div className="form-grid full">
                   <div className="form-group">
-                    <label className="form-label">OBSERVACIONES</label>
+                    <label className="form-label">NOTA ARCHIVERO</label>
                     <textarea
                       name="arc_obse"
                       className="form-textarea"
